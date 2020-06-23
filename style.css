@@ -1,0 +1,37 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: rgb(245, 245, 245);
+}
+
+.container {
+    display: grid;
+    height: 100vh;
+    grid-template-rows: 100px 1fr 100px;
+    grid-template-columns: 25% 1fr;
+    grid-template-areas: ". ." ". maze-contianer" ". .";
+}
+
+#maze-contianer {
+    grid-area: maze-contianer;
+    display: flex;
+    justify-content: center;
+}
+
+#maze {
+    background-color: #323439;
+    width: 70%;
+}
+
+table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+td {
+    width: 10%;
+}
