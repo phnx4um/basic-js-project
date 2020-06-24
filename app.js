@@ -2,25 +2,37 @@ generate_maze()
 
 
 function generate_maze() {
+
+    // number of columns in the maze
+    const MAZE_COLUMNS = 20;
+
     // get the reference for the #maze
-    var maze = document.querySelector("#maze");;
+    var maze = document.querySelector("#maze");
+    let mazeWidth = maze.getBoundingClientRect().width;
+    let mazeHeight = maze.getBoundingClientRect().height;
+
+    let columnWidth = Math.floor(mazeWidth / MAZE_COLUMNS);
+    let mazeRows = Math.floor(mazeHeight / columnWidth);
 
     // creates a <table> element and a <tbody> element
     var tbl = document.createElement("table");
+    tbl.style.borderCollapse = "collapse";
     var tblBody = document.createElement("tbody");
 
     // creating all cells
-    for (var i = 0; i < 2; i++) {
+    for (var i = 0; i < mazeRows; i++) {
         // creates a table row
         var row = document.createElement("tr");
 
-        for (var j = 0; j < 2; j++) {
-            // Create a <td> element and a text node, make the text
-            // node the contents of the <td>, and put the <td> at
+        for (var j = 0; j < MAZE_COLUMNS; j++) {
+            // Create a <td> element and put the <td> at
             // the end of the table row
             var cell = document.createElement("td");
-            var cellText = document.createTextNode("cell in row " + i + ", column " + j);
-            cell.appendChild(cellText);
+            cell.style.height = columnWidth.toString() + "px"
+            cell.style.border = "thin solid #ccc";
+
+            let cell_ID = i.toString() + "-" + j.toString()
+            cell.setAttribute("id", cell_ID);
             row.appendChild(cell);
         }
 
@@ -32,6 +44,5 @@ function generate_maze() {
     tbl.appendChild(tblBody);
     // appends <table> into #maze
     maze.appendChild(tbl);
-    // sets the border attribute of tbl to 2;
-    tbl.setAttribute("border-collapse", "collapse");
+
 }
