@@ -23,11 +23,17 @@ body {
 }
 
 #maze {
-    background-color: #323439;
+    display: grid;
+    align-items: center;
     width: 70%;
 }
 
 table {
     table-layout: auto;
     width: 100%;
+    background-color: #355C7D;
+}
+
+td {
+    border: thin solid #b4b4b4;
 }
