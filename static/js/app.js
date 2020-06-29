@@ -1,12 +1,24 @@
+// number of columns in the maze
+const MAZE_COLUMNS = 23;
 let drawWalls = false;
+let mazeRows = generateMaze();
 
-generate_maze()
+// when bfs is called.. generate wall array
+const algo = document.querySelector('.algos')
+algo.addEventListener('click', e => {
+    getWallArray();
+});
 
 
-function generate_maze() {
+function getWallArray() {
+    //get all the elements with class 'wall'
+    const wallElements = document.querySelectorAll('.wall');
+    wallElements.forEach(wallElement => console.log(wallElement));
+}
 
-    // number of columns in the maze
-    const MAZE_COLUMNS = 23;
+
+
+function generateMaze() {
 
     // get the reference for the #maze
     var maze = document.querySelector("#maze");
@@ -62,6 +74,7 @@ function generate_maze() {
     tbl.appendChild(tblBody);
     // appends <table> into #maze
     maze.appendChild(tbl);
+    return mazeRows
 }
 
 

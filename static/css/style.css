@@ -13,7 +13,13 @@ body {
     height: 100vh;
     grid-template-rows: 100px 1fr 100px;
     grid-template-columns: 25% 1fr;
-    grid-template-areas: ". ." ". maze-contianer" ". .";
+    grid-template-areas: ". algos" ". maze-contianer" ". .";
+}
+
+#algo {
+    grid-area: algos;
+    display: flex;
+    justify-content: center;
 }
 
 #maze-contianer {

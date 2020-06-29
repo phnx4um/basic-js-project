@@ -6,17 +6,18 @@ from helper import Node
 class Maze:
     
     def __init__(self):
-        self.maze_width = 4
-        self.maze_height = 4
-        self.start = (4,1)
-        self.goal = (1,4)
         self.visited = []
-        self.walls = [[1,0,0,0], 
-                      [0,1,0,1],
-                      [0,1,0,0],
-                      [0,0,0,1]]
+        ## get these values from the JS
+        self.maze_width = 6   # number of columns
+        self.maze_height = 4  # number of rows
+        self.start = (4,2)
+        self.goal = (1,5)
+        self.walls = [[0,1,0,0,0,1], 
+                      [1,0,1,0,1,0],
+                      [1,0,1,0,0,0],
+                      [0,0,0,0,1,0]]
+        ## till here 
         self.frontier = QueueFrontier()
-
         start_node = Node(self.start, None, None)
         self.frontier.add(start_node)
 
@@ -51,6 +52,8 @@ class Maze:
 
         for option in neighbour_options:
             new_pos, action = option
+            # new_pos[0] -> row    ->  (height)
+            # new_pos[1] -> column ->  (width)
             if (
                 (new_pos[0] <= self.maze_height and new_pos[1] <= self.maze_width) and 
                 (new_pos[0] > 0 and new_pos[1] > 0) and 
