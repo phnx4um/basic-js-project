@@ -5,18 +5,16 @@ from helper import Node
 
 class Maze:
     
-    def __init__(self):
+    def __init__(self, width, height, m_start, m_goal, wall_arr):
+    # def __init__(self):
         self.visited = []
-        ## get these values from the JS
-        self.maze_width = 6   # number of columns
-        self.maze_height = 4  # number of rows
-        self.start = (4,2)
-        self.goal = (1,5)
-        self.walls = [[0,1,0,0,0,1], 
-                      [1,0,1,0,1,0],
-                      [1,0,1,0,0,0],
-                      [0,0,0,0,1,0]]
-        ## till here 
+
+        self.maze_width = width   # number of columns
+        self.maze_height = height  # number of rows
+        self.start = m_start
+        self.goal = m_goal
+        self.walls = wall_arr
+
         self.frontier = QueueFrontier()
         start_node = Node(self.start, None, None)
         self.frontier.add(start_node)
@@ -26,18 +24,19 @@ class Maze:
             return 0
         while(not self.frontier.empty()):
             node = self.frontier.remove()
+            print(f'NODE: {node.state}')
             if node.state == self.goal:
                 return node # solution found
 
             self.visited.append(node.state) 
-            print(f'NODE: {node.state}')
+            
             # expand nodes
             neighbours = self.find_neighbours(node)
             for neighbour in neighbours:
                 # if the neighbour node is not already in the frontier
                 # or in the visited list
                 # then only add the node in the frontier....
-                if neighbour.state not in self.visited and not self.frontier.contains_state(neighbour):
+                if neighbour.state not in self.visited and not self.frontier.contains_state(neighbour.state):
                     print(f'neighbour: {neighbour.state}')
                     self.frontier.add(neighbour)
 
@@ -75,6 +74,3 @@ class Maze:
         path.reverse()
         for node in path:
             print(f'{node.action} {node.state}', end=" ")  
-
-maze = Maze()
-maze.solution()
