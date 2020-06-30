@@ -73,4 +73,5 @@ class Maze:
         # print the resutl
         path.reverse()
         for node in path:
-            print(f'{node.action} {node.state}', end=" ")  
+            print(f'{node.action} {node.state}', end=" ")
+        return path  

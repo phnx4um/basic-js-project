@@ -17,9 +17,18 @@ def bfs():
     start= tuple(req.get('start'))
     goal = tuple(req.get('end'))
     maze = Maze(req.get('width'), req.get('height'), start , goal , req.get('wall'))
-    maze.solution()
-    res = make_response(jsonify({"message": "success"}), 200)
-    return res
+    bfs_path = maze.solution()
+    print(bfs_path)
+    path_dict = []
+    for node in bfs_path: 
+        tmp = dict((name, getattr(node, name)) for name in dir(node) if not name.startswith('__'))
+        del tmp['parent']
+        path_dict.append(tmp)
+
+    print("")
+    print(path_dict)
+    response = make_response(jsonify({"path": path_dict}), 200)
+    return response 
 
 if __name__ == "__main__":
     app.run(debug=True)

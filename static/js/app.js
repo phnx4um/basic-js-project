@@ -20,13 +20,28 @@ bfs.addEventListener('click', e => {
 
     // fetch call
     fetch('/bfs', {
-        method: "POST",
-        body: JSON.stringify(data),
-        cache: "no-cache",
-        headers: new Headers({
-            "content-type": "application/json"
+            method: "POST",
+            body: JSON.stringify(data),
+            cache: "no-cache",
+            headers: new Headers({
+                "content-type": "application/json"
+            })
         })
-    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            let path = data.path
+            path.forEach(node => {
+                let idRow = node.state[0] - 1
+                let idCol = node.state[1] - 1
+                let id = idRow + "-" + idCol
+                console.log(id);
+                document.getElementById(id).className = "solution";
+            });
+        })
+        .catch((error) => {
+            console.log('Error:', error);
+        });
 
 });
 
@@ -36,14 +51,14 @@ function getWallArray() {
     let wallArr = new Array(mazeRows).fill(0).map(() => new Array(MAZE_COLUMNS).fill(0));
     console.log(wallArr);
     wallElements.forEach(wallElement => {
-        console.log(wallElement.id)
-            // id is in the this format  => row-column
-        let rowCol = wallElement.id.split('-')
-        let row = rowCol[0]
-        let col = rowCol[1]
-        wallArr[row][col] = 1
+        console.log(wallElement.id);
+        // id is in the this format  => row-column
+        let rowCol = wallElement.id.split('-');
+        let row = rowCol[0];
+        let col = rowCol[1];
+        wallArr[row][col] = 1;
     });
-    return wallArr
+    return wallArr;
 }
 
 function generateMaze() {

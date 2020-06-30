@@ -43,3 +43,7 @@ table {
 td {
     border: thin solid #b4b4b4;
 }
+
+.solution {
+    background-color: #2E8B57;
+}
