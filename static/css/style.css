@@ -5,25 +5,32 @@
 }
 
 body {
-    background-color: rgb(245, 245, 245);
+    background-color: #2f4454;
 }
 
 .container {
     display: grid;
     height: 100vh;
-    grid-template-rows: 100px 1fr 100px;
+    grid-template-rows: 85px 1fr 85px;
     grid-template-columns: 25% 1fr;
-    grid-template-areas: ". algos" ". maze-contianer" ". .";
+    grid-template-areas: "sidebar maze-container" "sidebar maze-container" "sidebar maze-container";
 }
 
-#algo {
-    grid-area: algos;
+#sidebar {
+    padding-top: 100px;
+    grid-area: sidebar;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
+    background-color: #f8f8f8;
 }
 
-#maze-contianer {
-    grid-area: maze-contianer;
+#algos {
+    grid-area: algos;
+}
+
+#maze-container {
+    grid-area: maze-container;
     display: flex;
     justify-content: center;
 }
@@ -31,19 +38,28 @@ body {
 #maze {
     display: grid;
     align-items: center;
-    width: 70%;
+    width: 100%;
 }
 
 table {
     table-layout: auto;
     width: 100%;
-    background-color: #355C7D;
+    background-color: #2f4454;
 }
 
 td {
-    border: thin solid #b4b4b4;
+    border: thin solid #376e6f;
 }
 
-.solution {
-    background-color: #2E8B57;
+.button {
+    background-color: #f8f8f8;
+    border: solid 1px #3f6e6f;
+    color: #3f6e6f;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
 }

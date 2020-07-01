@@ -1,11 +1,19 @@
 // number of columns in the maze
-const MAZE_COLUMNS = 23;
+const MAZE_COLUMNS = 30;
 let drawWalls = false;
 let mazeRows = generateMaze();
 
 const bfs = document.querySelector('#BFS');
 bfs.addEventListener('click', e => {
     console.log('hola');
+    // remove previous solution path if exists
+    let solutionCells = document.querySelectorAll(".solution");
+    if (solutionCells.length != 0) {
+        solutionCells.forEach(solutoinCell => {
+            solutoinCell.style.backgroundColor = "#2f4454";
+            solutionCells.className = "cell"
+        });
+    }
     // generate wall array
     let wallArr = getWallArray();
     console.log(wallArr);
@@ -36,7 +44,9 @@ bfs.addEventListener('click', e => {
                 let idCol = node.state[1] - 1
                 let id = idRow + "-" + idCol
                 console.log(id);
-                document.getElementById(id).className = "solution";
+                let nodeEle = document.getElementById(id);
+                nodeEle.className = "solution";
+                nodeEle.style.backgroundColor = "#3f6e6f";
             });
         })
         .catch((error) => {
@@ -127,7 +137,7 @@ function respondMouseMove(e) {
             e.target.style.backgroundColor = "#C06C84";
             e.target.setAttribute("class", "wall");
         } else {
-            e.target.style.backgroundColor = "#355C7D";
+            e.target.style.backgroundColor = "#2f4454";
             e.target.setAttribute("class", "cell")
         }
     }
