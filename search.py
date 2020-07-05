@@ -2,6 +2,7 @@
 # this will be replaced by the data from the javascript application
 from helper import QueueFrontier
 from helper import Node
+import collections
 
 class Maze:
     
@@ -14,6 +15,7 @@ class Maze:
         self.start = m_start
         self.goal = m_goal
         self.walls = wall_arr
+        self.track = []
 
         self.frontier = QueueFrontier()
         start_node = Node(self.start, None, None)
@@ -21,7 +23,7 @@ class Maze:
 
     def bfs(self):
         if self.frontier.empty():
-            return 0
+            return None
         while(not self.frontier.empty()):
             node = self.frontier.remove()
             print(f'NODE: {node.state}')
@@ -39,6 +41,15 @@ class Maze:
                 if neighbour.state not in self.visited and not self.frontier.contains_state(neighbour.state):
                     print(f'neighbour: {neighbour.state}')
                     self.frontier.add(neighbour)
+            
+            # EXTRA STUFF
+            # this is not part of the main search algo..
+            track_node = {}
+            x,y = node.state
+            node_name = str(x) + "-" + str(y)
+            print(self.frontier.frontier_states())
+            track_node[node_name] = self.frontier.frontier_states()
+            self.track.append(track_node)
 
     def find_neighbours(self, n):
         neighbour_list = []
@@ -74,4 +85,4 @@ class Maze:
         path.reverse()
         for node in path:
             print(f'{node.action} {node.state}', end=" ")
-        return path  
+        return path, self.track
