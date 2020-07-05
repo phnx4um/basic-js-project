@@ -15,7 +15,7 @@ class Maze:
         self.start = m_start
         self.goal = m_goal
         self.walls = wall_arr
-        self.track = []
+        self.explored_tracks = []
 
         self.frontier = QueueFrontier()
         start_node = Node(self.start, None, None)
@@ -34,22 +34,24 @@ class Maze:
             
             # expand nodes
             neighbours = self.find_neighbours(node)
+            true_neighbours = [] # not part of the main algo.. but required for UI in web app
             for neighbour in neighbours:
                 # if the neighbour node is not already in the frontier
                 # or in the visited list
                 # then only add the node in the frontier....
                 if neighbour.state not in self.visited and not self.frontier.contains_state(neighbour.state):
                     print(f'neighbour: {neighbour.state}')
+                    true_neighbours.append(neighbour.state)
                     self.frontier.add(neighbour)
             
             # EXTRA STUFF
-            # this is not part of the main search algo..
+            # not part of the main search algo..
             track_node = {}
-            x,y = node.state
-            node_name = str(x) + "-" + str(y)
-            print(self.frontier.frontier_states())
-            track_node[node_name] = self.frontier.frontier_states()
-            self.track.append(track_node)
+            print(self.frontier.state())
+            track_node['state'] = node.state
+            track_node['frontier_state'] = self.frontier.state()
+            track_node['neighbours'] = true_neighbours
+            self.explored_tracks.append(track_node)
 
     def find_neighbours(self, n):
         neighbour_list = []
@@ -85,4 +87,4 @@ class Maze:
         path.reverse()
         for node in path:
             print(f'{node.action} {node.state}', end=" ")
-        return path, self.track
+        return path, self.explored_tracks

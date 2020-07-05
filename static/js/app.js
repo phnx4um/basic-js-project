@@ -9,9 +9,9 @@ bfs.addEventListener('click', e => {
     // remove previous solution path if exists
     let solutionCells = document.querySelectorAll(".solution");
     if (solutionCells.length != 0) {
-        solutionCells.forEach(solutoinCell => {
-            solutoinCell.style.backgroundColor = "#2f4454";
-            solutionCells.className = "cell"
+        solutionCells.forEach(solutionCell => {
+            solutionCell.style.backgroundColor = "#2f4454";
+            solutionCell.className = "cell"
         });
     }
     // generate wall array
@@ -38,12 +38,17 @@ bfs.addEventListener('click', e => {
         .then(response => response.json())
         .then(data => {
             console.log('Success:', data);
-            let path = data.path
+            let path = data.path;
+            // TODO: display all the paths explored by the algorithm...
+            console.log(data.tracks)
             path.forEach(node => {
+                // flask app returns values with 1 indexing
+                // so convert to 0 indexing by subtracting 1
                 let idRow = node.state[0] - 1
                 let idCol = node.state[1] - 1
                 let id = idRow + "-" + idCol
                 console.log(id);
+                // display solution by changing bg-color of the elements
                 let nodeEle = document.getElementById(id);
                 nodeEle.className = "solution";
                 nodeEle.style.backgroundColor = "#3f6e6f";

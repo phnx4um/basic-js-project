@@ -17,8 +17,8 @@ def bfs():
     start= tuple(req.get('start'))
     goal = tuple(req.get('end'))
     maze = Maze(req.get('width'), req.get('height'), start , goal , req.get('wall'))
-    bfs_path, track = maze.solution()
-    print(track)
+    bfs_path, explored_tracks = maze.solution()
+    print(explored_tracks)
     # bfs path contians pyhton object.. 
     # convert the objects to dict.. and remove some propertiesd we dont need
     path_dict = []
@@ -29,7 +29,7 @@ def bfs():
 
     print("")
     print(f'PATH DIT: {path_dict}')
-    response = make_response(jsonify({"path": path_dict, "track": track}), 200)
+    response = make_response(jsonify({"path": path_dict, "tracks": explored_tracks}), 200)
     return response 
 
 if __name__ == "__main__":

@@ -30,12 +30,13 @@ class StackFrontier():
             self.frontier = self.frontier[:-1]
             return node
 
-    def frontier_states(self):
-        states = []
+    def state(self):
+        # frontier state returns all the node states(node.state) present in the frontier
+        f_state = []
         for node in self.frontier:
-            states.append(node.state)
+            f_state.append(node.state)
         # list of node tuples
-        return states
+        return f_state
 
 # this frontier is used for implementing BFS
 class QueueFrontier(StackFrontier):
