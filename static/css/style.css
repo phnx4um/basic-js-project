@@ -48,7 +48,8 @@ table {
 }
 
 td {
-    border: thin solid #376e6f;
+    border: thin solid #407172;
+    position: relative;
 }
 
 .button {
@@ -62,4 +63,13 @@ td {
     font-size: 14px;
     margin: 4px 2px;
     cursor: pointer;
+}
+
+.neighbour_div {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 20%;
+    width: 20%;
+    background-color: azure;
 }

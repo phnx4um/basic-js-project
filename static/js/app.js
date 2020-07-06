@@ -7,11 +7,12 @@ const bfs = document.querySelector('#BFS');
 bfs.addEventListener('click', e => {
     console.log('hola');
     // remove previous solution path if exists
+    // TODO: check this code... classnoma incorrect
     let solutionCells = document.querySelectorAll(".solution");
     if (solutionCells.length != 0) {
         solutionCells.forEach(solutionCell => {
             solutionCell.style.backgroundColor = "#2f4454";
-            solutionCell.className = "cell"
+            solutionCell.className = "cell";
         });
     }
     // generate wall array
@@ -41,6 +42,26 @@ bfs.addEventListener('click', e => {
             let path = data.path;
             // TODO: display all the paths explored by the algorithm...
             console.log(data.tracks)
+            let exploredTracks = data.tracks
+            exploredTracks.forEach(cell => {
+                let id = getID(cell)
+                console.log(id);
+                // get the DOM element
+                let e = document.getElementById(id);
+                // e.style.backgroundColor = "#90afc5";
+                // get all the neighbours too
+                let neighbours = cell.neighbours;
+                console.log(neighbours)
+                neighbours.forEach(neighbour => {
+                    let id = getNeighbourID(neighbour);
+                    console.log(id);
+                    let n_ele = document.getElementById(id);
+                    // append a div at lower bottom corner for the neighbour cell
+                    n_div = document.createElement("div");
+                    n_div.className = "neighbour_div"
+                    n_ele.appendChild(n_div);
+                });
+            });
             path.forEach(node => {
                 // flask app returns values with 1 indexing
                 // so convert to 0 indexing by subtracting 1
@@ -59,6 +80,21 @@ bfs.addEventListener('click', e => {
         });
 
 });
+
+
+function getID(node) {
+    let idRow = node.state[0] - 1;
+    let idCol = node.state[1] - 1;
+    let id = idRow + "-" + idCol;
+    return id
+}
+
+function getNeighbourID(n) {
+    let idRow = n[0] - 1;
+    let idCol = n[1] - 1;
+    let id = idRow + "-" + idCol;
+    return id
+}
 
 function getWallArray() {
     //get all the elements with class 'wall'
@@ -116,9 +152,9 @@ function generateMaze() {
                 // assign id
             let cell_ID = i.toString() + "-" + j.toString()
             cell.setAttribute("id", cell_ID);
-            cell.setAttribute("class", "cell")
-                // add listeners
-            cell.addEventListener('mouseover', respondMouseMove)
+            cell.setAttribute("class", "cell");
+            // add listeners
+            cell.addEventListener('mouseover', respondMouseMove);
             row.appendChild(cell);
         }
         // add the row to the end of the table body
