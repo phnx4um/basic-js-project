@@ -193,7 +193,7 @@ function respondMouseMove(e) {
         console.log(e.target);
         // improve this logic
         if (e.target.className != "wall") {
-            e.target.style.backgroundColor = "#8a625a";
+            e.target.style.backgroundColor = "#F5F5DC";
             e.target.setAttribute("class", "wall");
         } else {
             e.target.style.backgroundColor = "#2f4454";
