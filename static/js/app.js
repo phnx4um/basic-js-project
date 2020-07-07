@@ -23,8 +23,8 @@ bfs.addEventListener('click', e => {
         width: MAZE_COLUMNS,
         height: mazeRows,
         wall: wallArr,
-        start: [1, 1],
-        end: [5, 5]
+        start: [5, 6], // 5th row 6th column
+        end: [11, 9]
     };
 
     // fetch call
@@ -41,26 +41,38 @@ bfs.addEventListener('click', e => {
             console.log('Success:', data);
             let path = data.path;
             // TODO: display all the paths explored by the algorithm...
-            console.log(data.tracks)
-            let exploredTracks = data.tracks
+            console.log(data.tracks);
+            let exploredTracks = data.tracks;
+            let i = 0; // for transition animation delay 
             exploredTracks.forEach(cell => {
                 let id = getID(cell)
                 console.log(id);
-                // get the DOM element
                 let e = document.getElementById(id);
-                // e.style.backgroundColor = "#90afc5";
-                // get all the neighbours too
+                // e.style.backgroundColor = "#90afc5"; // change background color of the current cell
+                let currentNodeDiv = document.createElement("div");
+                currentNodeDiv.className = "active_node";
+                e.appendChild(currentNodeDiv);
+                setTimeout(function() {
+                    currentNodeDiv.classList.add('anim');
+                }, 250 * i);
+                // get all the neighbours
                 let neighbours = cell.neighbours;
-                console.log(neighbours)
-                neighbours.forEach(neighbour => {
-                    let id = getNeighbourID(neighbour);
-                    console.log(id);
-                    let n_ele = document.getElementById(id);
-                    // append a div at lower bottom corner for the neighbour cell
-                    n_div = document.createElement("div");
-                    n_div.className = "neighbour_div"
-                    n_ele.appendChild(n_div);
-                });
+                console.log(neighbours);
+                // neighbours.forEach(neighbour => {
+                //     console.log(i)
+                //     let id = getNeighbourID(neighbour);
+                //     console.log(id);
+                //     let n_ele = document.getElementById(id);
+                //     // append a div at lower bottom corner for the neighbour cell
+                //     let n_div = document.createElement("div");
+                //     n_div.className = "neighbour_div";
+                //     // run animation for neighbours
+                //     n_ele.appendChild(n_div);
+                //     setTimeout(function() {
+                //         n_div.classList.add('scale');
+                //     }, 250 * i);
+                // });
+                i = i + 1;
             });
             path.forEach(node => {
                 // flask app returns values with 1 indexing
@@ -72,7 +84,13 @@ bfs.addEventListener('click', e => {
                 // display solution by changing bg-color of the elements
                 let nodeEle = document.getElementById(id);
                 nodeEle.className = "solution";
-                nodeEle.style.backgroundColor = "#3f6e6f";
+                let solDiv = document.createElement("div");
+                solDiv.className = "sol_div";
+                nodeEle.appendChild(solDiv);
+                setTimeout(function() {
+                    solDiv.classList.add('anim');
+                }, exploredTracks.length * 250);
+
             });
         })
         .catch((error) => {
@@ -148,9 +166,9 @@ function generateMaze() {
             // Create a <td> element and put the <td> at
             // the end of the table row
             var cell = document.createElement("td");
-            cell.style.height = columnWidth.toString() + "px"
-                // assign id
-            let cell_ID = i.toString() + "-" + j.toString()
+            cell.style.height = columnWidth.toString() + "px";
+            // assign id
+            let cell_ID = i.toString() + "-" + j.toString();
             cell.setAttribute("id", cell_ID);
             cell.setAttribute("class", "cell");
             // add listeners
@@ -175,7 +193,7 @@ function respondMouseMove(e) {
         console.log(e.target);
         // improve this logic
         if (e.target.className != "wall") {
-            e.target.style.backgroundColor = "#C06C84";
+            e.target.style.backgroundColor = "#8a625a";
             e.target.setAttribute("class", "wall");
         } else {
             e.target.style.backgroundColor = "#2f4454";
