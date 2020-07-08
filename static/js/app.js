@@ -3,6 +3,12 @@ const MAZE_COLUMNS = 30;
 let drawWalls = false;
 let mazeRows = generateMaze();
 
+const neighboursDiv = document.querySelector("#neighbours");
+const frontierDiv = document.querySelector("#frontier");
+
+console.log(neighboursDiv);
+
+
 const bfs = document.querySelector('#BFS');
 bfs.addEventListener('click', e => {
     console.log('hola');
@@ -23,8 +29,8 @@ bfs.addEventListener('click', e => {
         width: MAZE_COLUMNS,
         height: mazeRows,
         wall: wallArr,
-        start: [5, 6], // 5th row 6th column
-        end: [11, 9]
+        start: [1, 1], // 5th row 6th column
+        end: [4, 4]
     };
 
     // fetch call
@@ -40,40 +46,64 @@ bfs.addEventListener('click', e => {
         .then(data => {
             console.log('Success:', data);
             let path = data.path;
+
+            // SEARCH SPACE COVERED BY THE ALGO
             // TODO: display all the paths explored by the algorithm...
-            console.log(data.tracks);
             let exploredTracks = data.tracks;
+            console.log(exploredTracks);
             let i = 0; // for transition animation delay 
             exploredTracks.forEach(cell => {
                 let id = getID(cell)
                 console.log(id);
                 let e = document.getElementById(id);
-                // e.style.backgroundColor = "#90afc5"; // change background color of the current cell
+
                 let currentNodeDiv = document.createElement("div");
                 currentNodeDiv.className = "active_node";
+                currentNodeDiv.id = id + " e" // e for explored?
+                    // add event listener 
+                currentNodeDiv.addEventListener("click", (e) => {
+                    let id = e.target.id;
+                    console.log(id);
+                    // split the id...
+                    let rowCol = id.split(" ")[0].split("-");
+                    let row = rowCol[0];
+                    let col = rowCol[1];
+                    console.log(row, col);
+
+                    // compare the state arr and get the matching obj
+                    let arr = [Number(row), Number(col)];
+
+                    exploredTracks.forEach(n => {
+                        let state = n.state;
+                        if ((state[0] - 1) === arr[0] && (state[1] - 1) === arr[1]) {
+                            console.log(n.neighbours);
+                            console.log(n.frontier_state);
+
+                            (n.neighbours).forEach(arr => {
+                                let x = document.createElement("p");
+                                x.innerHTML = arr.toString();
+                                neighboursDiv.appendChild(x);
+                            });
+
+                            (n.frontier_state).forEach(s => {
+                                let x = document.createElement("p");
+                                x.innerHTML = s.toString();
+                                frontierDiv.appendChild(x);
+                            });
+
+                        }
+                    });
+
+                }, false);
+
                 e.appendChild(currentNodeDiv);
                 setTimeout(function() {
                     currentNodeDiv.classList.add('anim');
                 }, 250 * i);
-                // get all the neighbours
-                let neighbours = cell.neighbours;
-                console.log(neighbours);
-                // neighbours.forEach(neighbour => {
-                //     console.log(i)
-                //     let id = getNeighbourID(neighbour);
-                //     console.log(id);
-                //     let n_ele = document.getElementById(id);
-                //     // append a div at lower bottom corner for the neighbour cell
-                //     let n_div = document.createElement("div");
-                //     n_div.className = "neighbour_div";
-                //     // run animation for neighbours
-                //     n_ele.appendChild(n_div);
-                //     setTimeout(function() {
-                //         n_div.classList.add('scale');
-                //     }, 250 * i);
-                // });
                 i = i + 1;
             });
+
+            // SOLUTION CODE
             path.forEach(node => {
                 // flask app returns values with 1 indexing
                 // so convert to 0 indexing by subtracting 1
@@ -96,7 +126,6 @@ bfs.addEventListener('click', e => {
         .catch((error) => {
             console.log('Error:', error);
         });
-
 });
 
 
@@ -201,3 +230,22 @@ function respondMouseMove(e) {
         }
     }
 }
+
+
+// //get all the neighbours
+//  let neighbours = cell.neighbours;
+//  console.log(neighbours);
+// neighbours.forEach(neighbour => {
+//     console.log(i)
+//     let id = getNeighbourID(neighbour);
+//     console.log(id);
+//     let n_ele = document.getElementById(id);
+//     // append a div at lower bottom corner for the neighbour cell
+//     let n_div = document.createElement("div");
+//     n_div.className = "neighbour_div";
+//     // run animation for neighbours
+//     n_ele.appendChild(n_div);
+//     setTimeout(function() {
+//         n_div.classList.add('scale');
+//     }, 250 * i);
+// });
